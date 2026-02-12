@@ -157,26 +157,30 @@ export const PromoBlockComponent: React.FC<PromoBlockComponentProps> = ({
   }) => {
     return (
       <div className="flex items-center gap-1 bg-white border border-gray-200 rounded-lg p-1 shadow-md mt-2 w-fit mx-auto z-[110]">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-7 w-7 p-0 hover:bg-gray-100"
-          onClick={(e) => {
-            e.stopPropagation();
-            onCopy();
-          }}
-        >
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 w-7 p-0 hover:bg-gray-100"
+            onMouseDown={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onCopy();
+            }}
+          >
           <Copy className="w-3.5 h-3.5 text-gray-700" />
         </Button>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-7 w-7 p-0 hover:bg-red-50"
-          onClick={(e) => {
-            e.stopPropagation();
-            onDelete();
-          }}
-        >
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 w-7 p-0 hover:bg-red-50"
+            onMouseDown={(e) => e.stopPropagation()}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onDelete();
+            }}
+          >
           <Trash2 className="w-3.5 h-3.5 text-red-600" />
         </Button>
       </div>

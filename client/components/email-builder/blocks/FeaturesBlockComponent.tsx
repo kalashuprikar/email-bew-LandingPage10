@@ -129,7 +129,9 @@ export const FeaturesBlockComponent: React.FC<FeaturesBlockComponentProps> = ({
           variant="ghost"
           size="sm"
           className="h-7 w-7 p-0 hover:bg-gray-100"
+          onMouseDown={(e) => e.stopPropagation()}
           onClick={(e) => {
+            e.preventDefault();
             e.stopPropagation();
             onCopy();
           }}
@@ -140,7 +142,9 @@ export const FeaturesBlockComponent: React.FC<FeaturesBlockComponentProps> = ({
           variant="ghost"
           size="sm"
           className="h-7 w-7 p-0 hover:bg-red-50"
+          onMouseDown={(e) => e.stopPropagation()}
           onClick={(e) => {
+            e.preventDefault();
             e.stopPropagation();
             onDelete();
           }}
