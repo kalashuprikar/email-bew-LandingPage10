@@ -26,12 +26,22 @@ export interface TitleBlock {
   fontSize: number;
   fontColor: string;
   backgroundColor: string;
+  backgroundImage?: string;
   alignment: "left" | "center" | "right";
   fontWeight: "normal" | "bold";
   width: number;
+  height?: number;
   widthUnit: "px" | "%";
   padding: number;
+  paddingTop?: number;
+  paddingRight?: number;
+  paddingBottom?: number;
+  paddingLeft?: number;
   margin: number;
+  marginTop?: number;
+  marginRight?: number;
+  marginBottom?: number;
+  marginLeft?: number;
   borderWidth: number;
   borderColor: string;
   borderRadius: number;
@@ -45,10 +55,12 @@ export interface TextBlock {
   fontSize: number;
   fontColor: string;
   backgroundColor: string;
+  backgroundImage?: string;
   alignment: "left" | "center" | "right";
   fontWeight: "normal" | "bold";
   fontStyle: "normal" | "italic";
   width: number;
+  height?: number;
   widthUnit: "px" | "%";
   padding: number;
   margin: number;
@@ -158,12 +170,14 @@ export interface HtmlBlock {
   id: string;
   content: string;
   width: number;
+  height?: number;
   widthUnit: "px" | "%";
   padding: number;
   margin: number;
   borderWidth: number;
   borderColor: string;
   borderRadius: number;
+  backgroundColor?: string;
   visibility: "all" | "desktop" | "mobile";
 }
 

@@ -308,7 +308,7 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
           <Button
             size="sm"
             variant="ghost"
-            onClick={handleSend}
+            onClick={() => handleSend()}
             disabled={!input.trim() || isGenerating}
             className="absolute right-1 top-1 h-8 w-8 p-0 text-purple-600 hover:text-purple-700 hover:bg-purple-50"
           >

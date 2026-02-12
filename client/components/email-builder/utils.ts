@@ -20,6 +20,9 @@ import {
   CenteredImageCardBlock,
   SplitImageCardBlock,
   PromoBlock,
+  TwoColumnCardBlock,
+  StatsBlock,
+  FeaturesBlock,
 } from "./types";
 import { compileHTML, sanitizeHTML } from "./htmlCompiler";
 
@@ -274,6 +277,8 @@ export function createDividerBlock(): DividerBlock {
     color: "#e0e0e0",
     height: 1,
     margin: 20,
+    padding: 0,
+    visibility: "all",
   };
 }
 
@@ -316,7 +321,13 @@ export function createFooterBlock(
     backgroundColor: "#f5f5f5",
     textColor: "#666666",
     fontSize: 12,
+    fontWeight: "normal",
     padding: 20,
+    margin: 0,
+    borderWidth: 0,
+    borderColor: "#cccccc",
+    borderRadius: 0,
+    visibility: "all",
   };
 }
 
@@ -401,6 +412,10 @@ export function createSpacerBlock(height = 20): SpacerBlock {
     id: generateId(),
     height,
     backgroundColor: "#ffffff",
+    margin: 0,
+    borderWidth: 0,
+    borderColor: "#cccccc",
+    visibility: "all",
   };
 }
 
@@ -576,7 +591,7 @@ export function createTopImageSectionTemplate(): ContentBlock[] {
   return [createCenteredImageCardBlock()];
 }
 
-export function createTwoColumnCardBlock() {
+export function createTwoColumnCardBlock(): TwoColumnCardBlock {
   return {
     type: "twoColumnCard",
     id: generateId(),
@@ -637,7 +652,7 @@ export function createPromoBlock(): PromoBlock {
   };
 }
 
-export function createStatsBlock() {
+export function createStatsBlock(): StatsBlock {
   return {
     type: "stats",
     id: generateId(),
@@ -682,9 +697,9 @@ export function createStatsBlock() {
   };
 }
 
-export function createFeaturesBlock() {
+export function createFeaturesBlock(): FeaturesBlock {
   return {
-    type: "features" as const,
+    type: "features",
     id: generateId(),
     features: [
       {
