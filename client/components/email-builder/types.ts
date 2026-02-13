@@ -508,6 +508,7 @@ export interface TwoColumnCardBlock {
       borderRadius: number;
       padding: number;
     } | null;
+    blocks?: ContentBlock[]; // Nested blocks that can be dropped inside
     backgroundColor: string;
     textColor: string;
     borderRadius: number;

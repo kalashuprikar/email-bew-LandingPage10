@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
-import { TwoColumnCardBlock } from "../types";
+import { useDrop } from "react-dnd";
+import { TwoColumnCardBlock, ContentBlock } from "../types";
 import { Upload, Trash2, Plus, Copy, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,80 @@ import {
 
 const generateId = () =>
   `section-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
+interface CardDropZoneProps {
+  cardId: string;
+  blocks: ContentBlock[];
+  onAddBlock: (block: ContentBlock) => void;
+  onDeleteBlock: (blockId: string) => void;
+}
+
+const CardDropZone: React.FC<CardDropZoneProps> = ({
+  cardId,
+  blocks,
+  onAddBlock,
+  onDeleteBlock,
+}) => {
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: ["block", "template"],
+    drop: (item: any) => {
+      if (item.blocks) {
+        // Template - add all blocks
+        item.blocks.forEach((block: ContentBlock) => {
+          onAddBlock(block);
+        });
+      } else if (item.block) {
+        // Single block
+        onAddBlock(item.block);
+      }
+    },
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
+  }));
+
+  const ref = useRef<HTMLDivElement>(null);
+  drop(ref);
+
+  return (
+    <div ref={ref} className="mt-3 pt-2 border-t border-gray-200">
+      {blocks && blocks.length > 0 ? (
+        <div className="space-y-2">
+          {blocks.map((block) => (
+            <div
+              key={block.id}
+              className="flex items-center justify-between bg-gray-50 p-2 rounded border border-gray-200 group"
+            >
+              <span className="text-sm text-gray-700">{block.type}</span>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-6 w-6 p-0 opacity-0 group-hover:opacity-100 hover:bg-red-50"
+                onClick={() => onDeleteBlock(block.id)}
+              >
+                <Trash2 className="w-3 h-3 text-red-600" />
+              </Button>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div
+          className={`text-center py-4 border-2 border-dashed rounded transition-colors ${
+            isOver
+              ? "border-valasys-orange bg-orange-50"
+              : "border-gray-300 bg-gray-50"
+          }`}
+        >
+          <p className="text-xs text-gray-500">
+            {isOver
+              ? "Drop block here"
+              : "Drag blocks here to add to card"}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};
 
 interface TwoColumnCardBlockComponentProps {
   block: TwoColumnCardBlock;
@@ -179,6 +254,32 @@ export const TwoColumnCardBlockComponent: React.FC<
       });
       setEditingButtonCardId(cardId);
     }
+  };
+
+  const handleAddBlockToCard = (cardId: string, newBlock: ContentBlock) => {
+    const updatedCards = block.cards.map((card) => {
+      if (card.id === cardId) {
+        return {
+          ...card,
+          blocks: [...(card.blocks || []), newBlock],
+        };
+      }
+      return card;
+    });
+    onUpdate({ ...block, cards: updatedCards });
+  };
+
+  const handleDeleteBlockFromCard = (cardId: string, blockId: string) => {
+    const updatedCards = block.cards.map((card) => {
+      if (card.id === cardId) {
+        return {
+          ...card,
+          blocks: (card.blocks || []).filter((b) => b.id !== blockId),
+        };
+      }
+      return card;
+    });
+    onUpdate({ ...block, cards: updatedCards });
   };
 
   const handleUpdateButton = (
@@ -740,6 +841,18 @@ export const TwoColumnCardBlockComponent: React.FC<
                     )}
                   </div>
                 )}
+
+                {/* Nested Blocks Drop Zone */}
+                <CardDropZone
+                  cardId={card.id}
+                  blocks={card.blocks || []}
+                  onAddBlock={(newBlock) =>
+                    handleAddBlockToCard(card.id, newBlock)
+                  }
+                  onDeleteBlock={(blockId) =>
+                    handleDeleteBlockFromCard(card.id, blockId)
+                  }
+                />
               </div>
             </div>
           );
