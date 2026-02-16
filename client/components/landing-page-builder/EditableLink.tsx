@@ -36,13 +36,13 @@ export const EditableLink: React.FC<EditableLinkProps> = ({
 
   if (isEditing) {
     return (
-      <div className="flex flex-col gap-1 w-48 bg-white p-3 rounded border border-valasys-orange shadow-lg z-50">
+      <div className="flex flex-col gap-2 w-40 bg-white p-2 rounded border border-valasys-orange shadow-lg z-50">
         <Input
-          placeholder="Link text"
+          placeholder="Text"
           value={editLabel}
           onChange={(e) => setEditLabel(e.target.value)}
           size="sm"
-          className="text-xs h-7"
+          className="text-xs h-6"
           autoFocus
         />
         <Input
@@ -50,9 +50,9 @@ export const EditableLink: React.FC<EditableLinkProps> = ({
           value={editHref}
           onChange={(e) => setEditHref(e.target.value)}
           size="sm"
-          className="text-xs h-7"
+          className="text-xs h-6"
         />
-        <div className="flex gap-2 mt-2">
+        <div className="flex gap-1">
           <button
             onClick={handleSave}
             className="flex-1 text-xs px-2 py-1 bg-valasys-orange text-white rounded hover:bg-orange-600"
