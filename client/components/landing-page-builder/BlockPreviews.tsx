@@ -10,6 +10,10 @@ interface BlockPreviewProps {
   onLinkSelect?: (linkIndex: number, linkType: "navigation" | "quick") => void;
 }
 
+interface HeaderBlockPreviewState {
+  selectedLinkIndex?: number;
+}
+
 export const HeaderBlockPreview: React.FC<BlockPreviewProps> = ({
   block,
   isSelected,
@@ -18,6 +22,7 @@ export const HeaderBlockPreview: React.FC<BlockPreviewProps> = ({
   onLinkSelect,
 }) => {
   const props = block.properties;
+  const [hoveredLinkIndex, setHoveredLinkIndex] = React.useState<number | null>(null);
 
   return (
     <div
@@ -36,7 +41,11 @@ export const HeaderBlockPreview: React.FC<BlockPreviewProps> = ({
                 e.stopPropagation();
                 onLinkSelect?.(i, "navigation");
               }}
-              className="hover:text-gray-900 cursor-pointer hover:opacity-70"
+              onMouseEnter={() => setHoveredLinkIndex(i)}
+              onMouseLeave={() => setHoveredLinkIndex(null)}
+              className={`hover:text-gray-900 cursor-pointer px-2 py-1 rounded transition-all ${
+                hoveredLinkIndex === i ? "border border-dashed border-gray-400" : ""
+              }`}
             >
               <EditableLink
                 label={link.label}
