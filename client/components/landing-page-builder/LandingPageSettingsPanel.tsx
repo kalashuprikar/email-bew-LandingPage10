@@ -148,6 +148,33 @@ export const LandingPageSettingsPanel: React.FC<
   const renderHeaderBlockSettings = () => (
     <div className="space-y-4">
       <div>
+        <Label className="text-sm font-medium">Background Color</Label>
+        <div className="flex gap-2">
+          <Input
+            type="color"
+            value={localProps.backgroundColor || "#ffffff"}
+            onChange={(e) => updateProperty("backgroundColor", e.target.value)}
+            className="w-12 h-10 p-1 cursor-pointer"
+          />
+          <Input
+            value={localProps.backgroundColor || "#ffffff"}
+            onChange={(e) => updateProperty("backgroundColor", e.target.value)}
+            placeholder="#ffffff"
+            className="flex-1"
+          />
+        </div>
+      </div>
+
+      <div>
+        <Label className="text-sm font-medium">Width</Label>
+        <Input
+          value={localProps.width || "100%"}
+          onChange={(e) => updateProperty("width", e.target.value)}
+          placeholder="100% or 1200px"
+        />
+      </div>
+
+      <div>
         <Label className="text-sm font-medium">Logo Text</Label>
         <Input
           value={localProps.logoText || ""}
@@ -303,6 +330,15 @@ export const LandingPageSettingsPanel: React.FC<
       </div>
 
       <div>
+        <Label className="text-sm font-medium">Width</Label>
+        <Input
+          value={localProps.width || "100%"}
+          onChange={(e) => updateProperty("width", e.target.value)}
+          placeholder="100% or 1200px"
+        />
+      </div>
+
+      <div>
         <Label className="text-sm font-medium">Min Height</Label>
         <Input
           value={localProps.minHeight || "500px"}
@@ -361,19 +397,6 @@ export const LandingPageSettingsPanel: React.FC<
       </div>
 
       <div>
-        <Label className="text-sm font-medium">Columns</Label>
-        <Input
-          type="number"
-          value={localProps.columns || 4}
-          onChange={(e) =>
-            updateProperty("columns", parseInt(e.target.value))
-          }
-          min="1"
-          max="6"
-        />
-      </div>
-
-      <div>
         <Label className="text-sm font-medium">Background Color</Label>
         <div className="flex gap-2">
           <Input
@@ -389,6 +412,28 @@ export const LandingPageSettingsPanel: React.FC<
             className="flex-1"
           />
         </div>
+      </div>
+
+      <div>
+        <Label className="text-sm font-medium">Width</Label>
+        <Input
+          value={localProps.width || "100%"}
+          onChange={(e) => updateProperty("width", e.target.value)}
+          placeholder="100% or 1200px"
+        />
+      </div>
+
+      <div>
+        <Label className="text-sm font-medium">Columns</Label>
+        <Input
+          type="number"
+          value={localProps.columns || 4}
+          onChange={(e) =>
+            updateProperty("columns", parseInt(e.target.value))
+          }
+          min="1"
+          max="6"
+        />
       </div>
     </div>
   );
@@ -453,6 +498,15 @@ export const LandingPageSettingsPanel: React.FC<
             className="flex-1"
           />
         </div>
+      </div>
+
+      <div>
+        <Label className="text-sm font-medium">Width</Label>
+        <Input
+          value={localProps.width || "100%"}
+          onChange={(e) => updateProperty("width", e.target.value)}
+          placeholder="100% or 1200px"
+        />
       </div>
 
       <div>
@@ -541,13 +595,113 @@ export const LandingPageSettingsPanel: React.FC<
     </div>
   );
 
+  const renderTestimonialsBlockSettings = () => (
+    <div className="space-y-4">
+      <div>
+        <Label className="text-sm font-medium">Heading</Label>
+        <Input
+          value={localProps.heading || ""}
+          onChange={(e) => updateProperty("heading", e.target.value)}
+          placeholder="Section heading"
+        />
+      </div>
+
+      <div>
+        <Label className="text-sm font-medium">Background Color</Label>
+        <div className="flex gap-2">
+          <Input
+            type="color"
+            value={localProps.backgroundColor || "#ffffff"}
+            onChange={(e) => updateProperty("backgroundColor", e.target.value)}
+            className="w-12 h-10 p-1 cursor-pointer"
+          />
+          <Input
+            value={localProps.backgroundColor || "#ffffff"}
+            onChange={(e) => updateProperty("backgroundColor", e.target.value)}
+            placeholder="#ffffff"
+            className="flex-1"
+          />
+        </div>
+      </div>
+
+      <div>
+        <Label className="text-sm font-medium">Width</Label>
+        <Input
+          value={localProps.width || "100%"}
+          onChange={(e) => updateProperty("width", e.target.value)}
+          placeholder="100% or 1200px"
+        />
+      </div>
+    </div>
+  );
+
+  const renderAboutBlockSettings = () => (
+    <div className="space-y-4">
+      <div>
+        <Label className="text-sm font-medium">Heading</Label>
+        <Input
+          value={localProps.heading || ""}
+          onChange={(e) => updateProperty("heading", e.target.value)}
+          placeholder="Section heading"
+        />
+      </div>
+
+      <div>
+        <Label className="text-sm font-medium">Background Color</Label>
+        <div className="flex gap-2">
+          <Input
+            type="color"
+            value={localProps.backgroundColor || "#ffffff"}
+            onChange={(e) => updateProperty("backgroundColor", e.target.value)}
+            className="w-12 h-10 p-1 cursor-pointer"
+          />
+          <Input
+            value={localProps.backgroundColor || "#ffffff"}
+            onChange={(e) => updateProperty("backgroundColor", e.target.value)}
+            placeholder="#ffffff"
+            className="flex-1"
+          />
+        </div>
+      </div>
+
+      <div>
+        <Label className="text-sm font-medium">Width</Label>
+        <Input
+          value={localProps.width || "100%"}
+          onChange={(e) => updateProperty("width", e.target.value)}
+          placeholder="100% or 1200px"
+        />
+      </div>
+    </div>
+  );
+
   const renderDefaultSettings = () => (
     <div className="space-y-4">
-      <div className="p-4 bg-gray-50 rounded">
-        <p className="text-sm text-gray-600">
-          Editing is not yet available for this block type. Select a different
-          block to continue.
-        </p>
+      <div>
+        <Label className="text-sm font-medium">Background Color</Label>
+        <div className="flex gap-2">
+          <Input
+            type="color"
+            value={localProps.backgroundColor || "#ffffff"}
+            onChange={(e) => updateProperty("backgroundColor", e.target.value)}
+            className="w-12 h-10 p-1 cursor-pointer"
+          />
+          <Input
+            value={localProps.backgroundColor || "#ffffff"}
+            onChange={(e) => updateProperty("backgroundColor", e.target.value)}
+            placeholder="#ffffff"
+            className="flex-1"
+          />
+        </div>
+      </div>
+
+      <div>
+        <Label className="text-sm font-medium">Width</Label>
+        <Input
+          value={localProps.width || "100%"}
+          onChange={(e) => updateProperty("width", e.target.value)}
+          placeholder="100% or 1200px"
+        />
       </div>
     </div>
   );
@@ -560,6 +714,10 @@ export const LandingPageSettingsPanel: React.FC<
         return renderHeroBlockSettings();
       case "features":
         return renderFeaturesBlockSettings();
+      case "testimonials":
+        return renderTestimonialsBlockSettings();
+      case "about":
+        return renderAboutBlockSettings();
       case "footer":
         return renderFooterBlockSettings();
       default:

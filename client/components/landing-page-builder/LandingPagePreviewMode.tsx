@@ -41,6 +41,17 @@ export const LandingPagePreviewMode: React.FC<LandingPagePreviewModeProps> = ({
     }
   };
 
+  const getDeviceClass = (): string => {
+    switch (device) {
+      case "mobile":
+        return "max-w-[375px]";
+      case "tablet":
+        return "max-w-[768px]";
+      default:
+        return "w-full";
+    }
+  };
+
   const renderBlock = (block: any) => {
     const blockProps = {
       block,
@@ -135,7 +146,28 @@ export const LandingPagePreviewMode: React.FC<LandingPagePreviewModeProps> = ({
 
       {/* Preview Area */}
       <div className="flex-1 overflow-y-auto bg-gray-900 flex items-start justify-center p-4 md:p-8">
+        <style>{`
+          .preview-desktop-only {
+            display: flex !important;
+          }
+          .preview-mobile-only {
+            display: none !important;
+          }
+          [data-preview-device="tablet"] .preview-desktop-only {
+            display: flex !important;
+          }
+          [data-preview-device="tablet"] .preview-mobile-only {
+            display: none !important;
+          }
+          [data-preview-device="mobile"] .preview-desktop-only {
+            display: none !important;
+          }
+          [data-preview-device="mobile"] .preview-mobile-only {
+            display: flex !important;
+          }
+        `}</style>
         <div
+          data-preview-device={device}
           style={{
             width: getDeviceWidth(),
             backgroundColor: "white",

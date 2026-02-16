@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import { ChevronLeft, Save, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -220,6 +222,7 @@ export const LandingPageBuilder: React.FC<LandingPageBuilderProps> = ({
   }
 
   return (
+    <DndProvider backend={HTML5Backend}>
     <div className="flex h-screen bg-gray-100">
       {/* Left Sidebar - Blocks Panel */}
       <div className="w-72 bg-white border-r border-gray-200 overflow-hidden flex flex-col">
@@ -330,5 +333,6 @@ export const LandingPageBuilder: React.FC<LandingPageBuilderProps> = ({
         />
       </div>
     </div>
+    </DndProvider>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDrag } from "react-dnd";
 import {
   Type,
   Image,
@@ -52,10 +53,29 @@ const DraggableBlockButton: React.FC<{
   block: BlockOption;
   onAddBlock: (block: LandingPageBlock) => void;
 }> = ({ block, onAddBlock }) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "panel-block",
+    item: {
+      blockType: block.id,
+      blockData: block.onCreate(),
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  }));
+
+  const ref = React.useRef<HTMLButtonElement>(null);
+  drag(ref);
+
   return (
     <button
+      ref={ref}
       onClick={() => onAddBlock(block.onCreate())}
-      className="flex flex-col items-center justify-center p-4 rounded-lg border border-gray-200 hover:border-valasys-orange hover:bg-orange-50 transition-all hover:shadow-md cursor-pointer"
+      className={`flex flex-col items-center justify-center p-4 rounded-lg border transition-all cursor-move ${
+        isDragging
+          ? "opacity-50 border-valasys-orange bg-orange-100"
+          : "border-gray-200 hover:border-valasys-orange hover:bg-orange-50 hover:shadow-md"
+      }`}
     >
       <div className="mb-2 text-valasys-orange">{block.icon}</div>
       <span className="text-xs font-medium text-gray-900 text-center">

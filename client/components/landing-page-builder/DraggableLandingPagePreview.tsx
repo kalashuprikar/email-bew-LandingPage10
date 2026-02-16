@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useDrag, useDrop, DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { useDrag, useDrop } from "react-dnd";
 import { Trash2, Copy, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -93,7 +92,7 @@ const DragItem: React.FC<{
   const ref = React.useRef<HTMLDivElement>(null);
 
   const [{ handlerId }, drop] = useDrop({
-    accept: "block",
+    accept: ["block", "panel-block"],
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
@@ -102,13 +101,22 @@ const DragItem: React.FC<{
     hover(item: any) {
       if (!ref.current) return;
 
-      const dragIndex = item.index;
-      const hoverIndex = index;
+      // Handle reordering of existing blocks
+      if (item.index !== undefined) {
+        const dragIndex = item.index;
+        const hoverIndex = index;
 
-      if (dragIndex === hoverIndex) return;
+        if (dragIndex === hoverIndex) return;
 
-      moveBlock(dragIndex, hoverIndex);
-      item.index = hoverIndex;
+        moveBlock(dragIndex, hoverIndex);
+        item.index = hoverIndex;
+      }
+    },
+    drop(item: any) {
+      // Handle adding new block from panel
+      if (item.blockData && onAddBlock && item.index === undefined) {
+        onAddBlock(index + 1, item.blockData);
+      }
     },
   });
 
@@ -193,13 +201,13 @@ const DragItem: React.FC<{
     <div
       ref={ref}
       data-handler-id={handlerId}
-      className={`relative transition-all rounded cursor-pointer group mb-6 ${
+      className={`relative transition-all rounded cursor-pointer group mb-8 ${
         isDragging ? "opacity-50" : ""
       } ${
         isSelected
-          ? "border-[0.5px] border-solid border-orange-300"
+          ? "border-2 border-solid border-valasys-orange shadow-lg shadow-orange-200"
           : isHovered
-            ? "border border-dashed border-orange-300"
+            ? "border-2 border-dashed border-valasys-orange"
             : ""
       }`}
       onMouseEnter={() => setIsHovered(true)}
@@ -209,11 +217,11 @@ const DragItem: React.FC<{
 
       {isSelected && (
         <>
-          <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2 bg-white rounded-full shadow-lg border border-orange-300 p-2 z-50">
+          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex gap-1 bg-white rounded-lg shadow-xl border border-valasys-orange p-3 z-50">
           <Button
             size="sm"
             variant="ghost"
-            className="h-8 w-8 p-0 hover:bg-gray-100"
+            className="h-9 w-9 p-0 hover:bg-orange-50 hover:text-valasys-orange transition-colors"
             onMouseDown={(e) => e.stopPropagation()}
             onPointerDown={(e) => e.stopPropagation()}
             title="Duplicate block"
@@ -222,22 +230,20 @@ const DragItem: React.FC<{
               if (onDuplicate) onDuplicate();
             }}
           >
-            <Copy className="w-4 h-4 text-gray-600" />
+            <Copy className="w-4 h-4" />
           </Button>
-
-          <div className="w-px bg-gray-300"></div>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 size="sm"
                 variant="ghost"
-                className="h-8 w-8 p-0 hover:bg-gray-100"
+                className="h-9 w-9 p-0 hover:bg-orange-50 hover:text-valasys-orange transition-colors"
                 onMouseDown={(e) => e.stopPropagation()}
                 onPointerDown={(e) => e.stopPropagation()}
                 title="Add block below"
               >
-                <Plus className="w-4 h-4 text-valasys-orange" />
+                <Plus className="w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="center">
@@ -286,12 +292,10 @@ const DragItem: React.FC<{
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <div className="w-px bg-gray-300"></div>
-
           <Button
             size="sm"
             variant="ghost"
-            className="h-8 w-8 p-0 hover:bg-red-50 hover:text-red-600"
+            className="h-9 w-9 p-0 hover:bg-red-50 hover:text-red-600 transition-colors"
             onMouseDown={(e) => e.stopPropagation()}
             onPointerDown={(e) => e.stopPropagation()}
             title="Delete block"
@@ -367,11 +371,51 @@ export const DraggableLandingPagePreview: React.FC<
     );
   };
 
-  return (
-    <DndProvider backend={HTML5Backend}>
-      <div className="w-full bg-white rounded-lg shadow-md overflow-hidden flex flex-col gap-4 p-4">
-        {blocks.map((block, index) => renderBlock(block, index))}
+  // Drop zone at the end of canvas
+  const EndDropZone: React.FC = () => {
+    const ref = React.useRef<HTMLDivElement>(null);
+
+    const [{ isOver }, drop] = useDrop({
+      accept: "panel-block",
+      collect(monitor) {
+        return {
+          isOver: monitor.isOver(),
+        };
+      },
+      drop(item: any) {
+        if (item.blockData && onAddBlock) {
+          onAddBlock(blocks.length, item.blockData);
+        }
+      },
+    });
+
+    drop(ref);
+
+    return (
+      <div
+        ref={ref}
+        className={`transition-all py-8 border-2 border-dashed rounded-lg ${
+          isOver
+            ? "border-valasys-orange bg-orange-50"
+            : "border-gray-300 bg-gray-50"
+        }`}
+      >
+        <div className="text-center">
+          <p className="text-sm text-gray-500">
+            {isOver
+              ? "Drop block here"
+              : "Drag blocks from left panel to add here"}
+          </p>
+        </div>
       </div>
-    </DndProvider>
+    );
+  };
+
+  return (
+    <div className="w-full bg-white rounded-lg shadow-md overflow-hidden flex flex-col gap-4 p-4">
+      {blocks.length === 0 && <EndDropZone />}
+      {blocks.map((block, index) => renderBlock(block, index))}
+      {blocks.length > 0 && <EndDropZone />}
+    </div>
   );
 };
