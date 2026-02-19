@@ -26,6 +26,9 @@ import {
   ParagraphBlockPreview,
   RichTextBlockPreview,
   QuoteBlockPreview,
+  DynamicContentBlockPreview,
+  ProductBlockPreview,
+  NavigationBlockPreview,
 } from "./BlockPreviews";
 import {
   createHeaderBlock,
@@ -44,6 +47,9 @@ import {
   createParagraphBlock,
   createRichTextBlock,
   createQuoteBlock,
+  createDynamicContentBlock,
+  createProductBlock,
+  createNavigationBlock,
 } from "./utils";
 
 interface DraggableLandingPagePreviewProps {
@@ -78,6 +84,9 @@ const BLOCK_CREATORS = {
   paragraph: createParagraphBlock,
   "rich-text": createRichTextBlock,
   quote: createQuoteBlock,
+  "dynamic-content": createDynamicContentBlock,
+  product: createProductBlock,
+  navigation: createNavigationBlock,
 };
 
 const DragItem: React.FC<{
@@ -214,6 +223,15 @@ const DragItem: React.FC<{
     case "quote":
       blockContent = <QuoteBlockPreview {...blockProps} />;
       break;
+    case "dynamic-content":
+      blockContent = <DynamicContentBlockPreview {...blockProps} />;
+      break;
+    case "product":
+      blockContent = <ProductBlockPreview {...blockProps} />;
+      break;
+    case "navigation":
+      blockContent = <NavigationBlockPreview {...blockProps} />;
+      break;
     default:
       blockContent = <div>Unknown block type</div>;
   }
@@ -279,6 +297,15 @@ const DragItem: React.FC<{
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="center">
+              <DropdownMenuItem onClick={() => handleAddBlock("dynamic-content")}>
+                Dynamic content
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleAddBlock("product")}>
+                Product
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleAddBlock("navigation")}>
+                Navigation
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleAddBlock("header")}>
                 Header
               </DropdownMenuItem>

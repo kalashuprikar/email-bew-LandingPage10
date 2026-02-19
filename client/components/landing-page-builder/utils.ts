@@ -364,6 +364,71 @@ export const createQuoteBlock = (): LandingPageBlock => ({
   },
 });
 
+export const createDynamicContentBlock = (): LandingPageBlock => ({
+  id: `dynamic-content-${Date.now()}`,
+  type: "dynamic-content",
+  properties: {
+    heading: "Dynamic Content",
+    description: "Add dynamic content that changes based on user input or data",
+    contentType: "text", // 'text', 'form', 'list'
+    backgroundColor: "#ffffff",
+    textColor: "#1f2937",
+    padding: "24px",
+    borderColor: "#e5e7eb",
+    borderWidth: "1px",
+    items: [
+      { id: "item-1", label: "Item 1", value: "Content 1" },
+      { id: "item-2", label: "Item 2", value: "Content 2" },
+      { id: "item-3", label: "Item 3", value: "Content 3" },
+    ],
+  },
+});
+
+export const createProductBlock = (): LandingPageBlock => ({
+  id: `product-${Date.now()}`,
+  type: "product",
+  properties: {
+    heading: "Featured Product",
+    description: "Showcase your product with image and details",
+    backgroundColor: "#ffffff",
+    products: [
+      {
+        id: "product-1",
+        name: "Product Name",
+        description: "Product description goes here",
+        price: "$99.99",
+        imageUrl: "",
+        buttonText: "Buy Now",
+        buttonLink: "#purchase",
+        buttonColor: "#FF6A00",
+      },
+    ],
+    columns: 1,
+    showPrice: true,
+    showDescription: true,
+  },
+});
+
+export const createNavigationBlock = (): LandingPageBlock => ({
+  id: `navigation-${Date.now()}`,
+  type: "navigation",
+  properties: {
+    heading: "Navigation",
+    description: "Add navigation links for users",
+    backgroundColor: "#1f2937",
+    textColor: "#ffffff",
+    orientation: "horizontal", // 'horizontal' or 'vertical'
+    links: [
+      { id: "nav-1", label: "Home", href: "#home" },
+      { id: "nav-2", label: "About", href: "#about" },
+      { id: "nav-3", label: "Services", href: "#services" },
+      { id: "nav-4", label: "Contact", href: "#contact" },
+    ],
+    alignment: "center",
+    padding: "16px",
+  },
+});
+
 // Template block creators that return arrays of blocks
 export const createMeetFramerTemplate = (): LandingPageBlock[] => [
   createHeroBlock(),

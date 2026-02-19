@@ -16,7 +16,10 @@ export interface LandingPageBlock {
     | "heading"
     | "paragraph"
     | "rich-text"
-    | "quote";
+    | "quote"
+    | "dynamic-content"
+    | "product"
+    | "navigation";
   properties: Record<string, any>;
   children?: LandingPageBlock[];
 }

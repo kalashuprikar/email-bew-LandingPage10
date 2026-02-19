@@ -32,6 +32,9 @@ import {
   createParagraphBlock,
   createRichTextBlock,
   createQuoteBlock,
+  createDynamicContentBlock,
+  createProductBlock,
+  createNavigationBlock,
 } from "./utils";
 import { LandingPageBlock } from "./types";
 
@@ -95,10 +98,34 @@ export const BlocksPanel: React.FC<BlocksPanelProps> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
-    new Set(["basics", "advanced", "footer"])
+    new Set(["content-sections", "basics", "advanced", "footer"])
   );
 
   const sections: Section[] = [
+    {
+      id: "content-sections",
+      title: "Content Sections",
+      blocks: [
+        {
+          id: "dynamic-content",
+          icon: <FileText className="w-6 h-6" />,
+          label: "Dynamic content",
+          onCreate: createDynamicContentBlock,
+        },
+        {
+          id: "product",
+          icon: <Grid2x2 className="w-6 h-6" />,
+          label: "Product",
+          onCreate: createProductBlock,
+        },
+        {
+          id: "navigation",
+          icon: <Layout className="w-6 h-6" />,
+          label: "Navigation",
+          onCreate: createNavigationBlock,
+        },
+      ],
+    },
     {
       id: "basics",
       title: "Basic",

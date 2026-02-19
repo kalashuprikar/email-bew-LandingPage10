@@ -1581,3 +1581,216 @@ export const QuoteBlockPreview: React.FC<BlockPreviewProps> = ({
     </div>
   );
 };
+
+export const DynamicContentBlockPreview: React.FC<BlockPreviewProps> = ({
+  block,
+  isSelected,
+  onSelect,
+  onUpdate,
+}) => {
+  const props = block.properties;
+  const [isEditing, setIsEditing] = React.useState(false);
+  const [editHeading, setEditHeading] = React.useState(props.heading || "");
+
+  const handleSave = () => {
+    if (editHeading.trim()) {
+      onUpdate({ ...props, heading: editHeading });
+    }
+    setIsEditing(false);
+  };
+
+  return (
+    <div
+      onClick={onSelect}
+      className={`cursor-pointer transition-all border ${
+        isSelected ? "border-valasys-orange" : "border-gray-200"
+      }`}
+      style={{
+        backgroundColor: props.backgroundColor || "#ffffff",
+        borderColor: props.borderColor || "#e5e7eb",
+        borderWidth: props.borderWidth || "1px",
+        padding: props.padding || "24px",
+      }}
+    >
+      {isEditing ? (
+        <input
+          type="text"
+          value={editHeading}
+          onChange={(e) => setEditHeading(e.target.value)}
+          onBlur={handleSave}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleSave();
+            if (e.key === "Escape") {
+              setEditHeading(props.heading || "");
+              setIsEditing(false);
+            }
+          }}
+          className="w-full focus:outline-none bg-transparent text-lg font-semibold"
+          style={{ color: props.textColor || "#1f2937" }}
+          autoFocus
+        />
+      ) : (
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            setEditHeading(props.heading || "");
+            setIsEditing(true);
+          }}
+          className="cursor-text mb-4"
+          style={{ color: props.textColor || "#1f2937" }}
+        >
+          <h3 className="text-lg font-semibold">{props.heading}</h3>
+        </div>
+      )}
+      <p
+        className="text-sm mb-4"
+        style={{ color: props.textColor || "#6b7280" }}
+      >
+        {props.description}
+      </p>
+      <div className="space-y-2">
+        {props.items?.map((item: any) => (
+          <div
+            key={item.id}
+            className="p-3 rounded-lg bg-gray-50 border border-gray-200"
+          >
+            <span className="font-medium text-sm">{item.label}:</span>
+            <span className="text-sm ml-2">{item.value}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export const ProductBlockPreview: React.FC<BlockPreviewProps> = ({
+  block,
+  isSelected,
+  onSelect,
+  onUpdate,
+}) => {
+  const props = block.properties;
+  const [isEditingHeading, setIsEditingHeading] = React.useState(false);
+  const [editHeading, setEditHeading] = React.useState(props.heading || "");
+
+  const handleSave = () => {
+    if (editHeading.trim()) {
+      onUpdate({ ...props, heading: editHeading });
+    }
+    setIsEditingHeading(false);
+  };
+
+  return (
+    <div
+      onClick={onSelect}
+      className={`cursor-pointer transition-all border ${
+        isSelected ? "border-valasys-orange" : "border-gray-200"
+      }`}
+      style={{
+        backgroundColor: props.backgroundColor || "#ffffff",
+        padding: "32px 24px",
+      }}
+    >
+      {isEditingHeading ? (
+        <input
+          type="text"
+          value={editHeading}
+          onChange={(e) => setEditHeading(e.target.value)}
+          onBlur={handleSave}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleSave();
+            if (e.key === "Escape") {
+              setEditHeading(props.heading || "");
+              setIsEditingHeading(false);
+            }
+          }}
+          className="w-full focus:outline-none bg-transparent text-2xl font-bold mb-8 text-center"
+          autoFocus
+        />
+      ) : (
+        <h2
+          onClick={(e) => {
+            e.stopPropagation();
+            setEditHeading(props.heading || "");
+            setIsEditingHeading(true);
+          }}
+          className="cursor-text text-2xl font-bold mb-8 text-center"
+        >
+          {props.heading}
+        </h2>
+      )}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {props.products?.map((product: any) => (
+          <div key={product.id} className="border border-gray-200 rounded-lg overflow-hidden">
+            {product.imageUrl && (
+              <div className="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-400">
+                <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover" />
+              </div>
+            )}
+            <div className="p-4">
+              <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
+              {props.showDescription && (
+                <p className="text-sm text-gray-600 mb-3">{product.description}</p>
+              )}
+              {props.showPrice && (
+                <p className="text-lg font-bold text-valasys-orange mb-4">{product.price}</p>
+              )}
+              <button
+                style={{ backgroundColor: product.buttonColor }}
+                className="w-full text-white py-2 rounded-lg font-medium hover:opacity-90 transition-opacity text-sm"
+              >
+                {product.buttonText}
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export const NavigationBlockPreview: React.FC<BlockPreviewProps> = ({
+  block,
+  isSelected,
+  onSelect,
+  onUpdate,
+}) => {
+  const props = block.properties;
+
+  const getFlexDirection = () => {
+    return props.orientation === "vertical" ? "flex-col" : "flex-row";
+  };
+
+  const getJustifyClass = () => {
+    if (props.alignment === "center") return "justify-center";
+    if (props.alignment === "right") return "justify-end";
+    return "justify-start";
+  };
+
+  return (
+    <div
+      onClick={onSelect}
+      className={`cursor-pointer transition-all border ${
+        isSelected ? "border-valasys-orange" : "border-gray-200"
+      }`}
+      style={{
+        backgroundColor: props.backgroundColor || "#1f2937",
+        color: props.textColor || "#ffffff",
+        padding: props.padding || "16px",
+      }}
+    >
+      <div className={`flex ${getFlexDirection()} ${getJustifyClass()} gap-6`}>
+        {props.links?.map((link: any) => (
+          <a
+            key={link.id}
+            href={link.href}
+            className="text-sm md:text-base font-medium hover:opacity-75 transition-opacity"
+            style={{ color: props.textColor || "#ffffff" }}
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+};

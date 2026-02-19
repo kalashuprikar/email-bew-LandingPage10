@@ -1170,6 +1170,210 @@ export const LandingPageSettingsPanel: React.FC<
     </div>
   );
 
+  const renderDynamicContentBlockSettings = () => (
+    <div className="space-y-4">
+      <div>
+        <Label className="text-sm font-medium">Heading</Label>
+        <Input
+          value={localProps.heading || ""}
+          onChange={(e) => updateProperty("heading", e.target.value)}
+          placeholder="Section heading"
+        />
+      </div>
+
+      <div>
+        <Label className="text-sm font-medium">Description</Label>
+        <textarea
+          value={localProps.description || ""}
+          onChange={(e) => updateProperty("description", e.target.value)}
+          placeholder="Section description"
+          rows={3}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none text-sm"
+        />
+      </div>
+
+      <div>
+        <Label className="text-sm font-medium">Background Color</Label>
+        <div className="flex gap-2">
+          <Input
+            type="color"
+            value={localProps.backgroundColor || "#ffffff"}
+            onChange={(e) => updateProperty("backgroundColor", e.target.value)}
+            className="w-12 h-10 p-1 cursor-pointer"
+          />
+          <Input
+            value={localProps.backgroundColor || "#ffffff"}
+            onChange={(e) => updateProperty("backgroundColor", e.target.value)}
+            placeholder="#ffffff"
+            className="flex-1"
+          />
+        </div>
+      </div>
+
+      <div>
+        <Label className="text-sm font-medium">Text Color</Label>
+        <div className="flex gap-2">
+          <Input
+            type="color"
+            value={localProps.textColor || "#1f2937"}
+            onChange={(e) => updateProperty("textColor", e.target.value)}
+            className="w-12 h-10 p-1 cursor-pointer"
+          />
+          <Input
+            value={localProps.textColor || "#1f2937"}
+            onChange={(e) => updateProperty("textColor", e.target.value)}
+            placeholder="#1f2937"
+            className="flex-1"
+          />
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderProductBlockSettings = () => (
+    <div className="space-y-4">
+      <div>
+        <Label className="text-sm font-medium">Heading</Label>
+        <Input
+          value={localProps.heading || ""}
+          onChange={(e) => updateProperty("heading", e.target.value)}
+          placeholder="Product section heading"
+        />
+      </div>
+
+      <div>
+        <Label className="text-sm font-medium">Background Color</Label>
+        <div className="flex gap-2">
+          <Input
+            type="color"
+            value={localProps.backgroundColor || "#ffffff"}
+            onChange={(e) => updateProperty("backgroundColor", e.target.value)}
+            className="w-12 h-10 p-1 cursor-pointer"
+          />
+          <Input
+            value={localProps.backgroundColor || "#ffffff"}
+            onChange={(e) => updateProperty("backgroundColor", e.target.value)}
+            placeholder="#ffffff"
+            className="flex-1"
+          />
+        </div>
+      </div>
+
+      <div>
+        <Label className="text-sm font-medium">Columns</Label>
+        <Input
+          type="number"
+          value={localProps.columns || 1}
+          onChange={(e) => updateProperty("columns", parseInt(e.target.value))}
+          min="1"
+          max="4"
+        />
+      </div>
+
+      <div>
+        <Label className="text-sm font-medium">
+          <input
+            type="checkbox"
+            checked={localProps.showPrice || false}
+            onChange={(e) => updateProperty("showPrice", e.target.checked)}
+            className="mr-2"
+          />
+          Show Price
+        </Label>
+      </div>
+
+      <div>
+        <Label className="text-sm font-medium">
+          <input
+            type="checkbox"
+            checked={localProps.showDescription || false}
+            onChange={(e) => updateProperty("showDescription", e.target.checked)}
+            className="mr-2"
+          />
+          Show Description
+        </Label>
+      </div>
+    </div>
+  );
+
+  const renderNavigationBlockSettings = () => (
+    <div className="space-y-4">
+      <div>
+        <Label className="text-sm font-medium">Background Color</Label>
+        <div className="flex gap-2">
+          <Input
+            type="color"
+            value={localProps.backgroundColor || "#1f2937"}
+            onChange={(e) => updateProperty("backgroundColor", e.target.value)}
+            className="w-12 h-10 p-1 cursor-pointer"
+          />
+          <Input
+            value={localProps.backgroundColor || "#1f2937"}
+            onChange={(e) => updateProperty("backgroundColor", e.target.value)}
+            placeholder="#1f2937"
+            className="flex-1"
+          />
+        </div>
+      </div>
+
+      <div>
+        <Label className="text-sm font-medium">Text Color</Label>
+        <div className="flex gap-2">
+          <Input
+            type="color"
+            value={localProps.textColor || "#ffffff"}
+            onChange={(e) => updateProperty("textColor", e.target.value)}
+            className="w-12 h-10 p-1 cursor-pointer"
+          />
+          <Input
+            value={localProps.textColor || "#ffffff"}
+            onChange={(e) => updateProperty("textColor", e.target.value)}
+            placeholder="#ffffff"
+            className="flex-1"
+          />
+        </div>
+      </div>
+
+      <div>
+        <Label className="text-sm font-medium">Orientation</Label>
+        <div className="flex gap-2">
+          {["horizontal", "vertical"].map((orientation) => (
+            <button
+              key={orientation}
+              onClick={() => updateProperty("orientation", orientation)}
+              className={`flex-1 py-2 px-3 rounded border text-xs font-medium transition-colors ${
+                localProps.orientation === orientation
+                  ? "bg-valasys-orange text-white border-valasys-orange"
+                  : "border-gray-300 hover:border-gray-400"
+              }`}
+            >
+              {orientation.charAt(0).toUpperCase() + orientation.slice(1)}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <Label className="text-sm font-medium">Alignment</Label>
+        <div className="flex gap-2">
+          {["start", "center", "end"].map((align) => (
+            <button
+              key={align}
+              onClick={() => updateProperty("alignment", align)}
+              className={`flex-1 py-2 px-3 rounded border text-xs font-medium transition-colors ${
+                localProps.alignment === align
+                  ? "bg-valasys-orange text-white border-valasys-orange"
+                  : "border-gray-300 hover:border-gray-400"
+              }`}
+            >
+              {align.charAt(0).toUpperCase() + align.slice(1)}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
   const renderBlockSettings = () => {
     switch (block.type) {
       case "header":
@@ -1186,6 +1390,12 @@ export const LandingPageSettingsPanel: React.FC<
         return renderFooterBlockSettings();
       case "text-headings-composite":
         return renderTextHeadingsBlockSettings();
+      case "dynamic-content":
+        return renderDynamicContentBlockSettings();
+      case "product":
+        return renderProductBlockSettings();
+      case "navigation":
+        return renderNavigationBlockSettings();
       default:
         return renderDefaultSettings();
     }
