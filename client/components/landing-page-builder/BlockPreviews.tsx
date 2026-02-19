@@ -290,20 +290,18 @@ export const HeroBlockPreview: React.FC<BlockPreviewProps> = ({
       }}
     >
       {isEditingHeading ? (
-        <input
-          type="text"
+        <textarea
           value={editHeadingText}
           onChange={(e) => setEditHeadingText(e.target.value)}
           onBlur={handleHeadlineSave}
           onKeyDown={(e) => {
-            if (e.key === "Enter") handleHeadlineSave();
             if (e.key === "Escape") {
               setEditHeadingText(props.headline || "");
               setIsEditingHeading(false);
             }
           }}
           onClick={(e) => e.stopPropagation()}
-          className="w-full text-2xl md:text-5xl font-bold text-gray-900 px-2 py-1 focus:outline-none bg-transparent"
+          className="w-full text-2xl md:text-5xl font-bold text-gray-900 px-2 py-1 focus:outline-none bg-transparent resize-none overflow-hidden"
           autoFocus
         />
       ) : (
@@ -361,20 +359,18 @@ export const HeroBlockPreview: React.FC<BlockPreviewProps> = ({
       }}
     >
       {isEditingSubheading ? (
-        <input
-          type="text"
+        <textarea
           value={editSubheadingText}
           onChange={(e) => setEditSubheadingText(e.target.value)}
           onBlur={handleSubheadingSave}
           onKeyDown={(e) => {
-            if (e.key === "Enter") handleSubheadingSave();
             if (e.key === "Escape") {
               setEditSubheadingText(props.subheading || "");
               setIsEditingSubheading(false);
             }
           }}
           onClick={(e) => e.stopPropagation()}
-          className="w-full text-sm md:text-xl text-gray-600 px-2 py-1 focus:outline-none bg-transparent"
+          className="w-full text-sm md:text-xl text-gray-600 px-2 py-1 focus:outline-none bg-transparent resize-none overflow-hidden"
           autoFocus
         />
       ) : (
