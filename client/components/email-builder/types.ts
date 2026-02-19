@@ -613,11 +613,18 @@ export type ContentBlock =
   | FeaturesBlock
   | PromoBlock;
 
+export interface EmailSection {
+  id: string;
+  name: string;
+  blocks: ContentBlock[];
+}
+
 export interface EmailTemplate {
   id: string;
   name: string;
   subject: string;
   blocks: ContentBlock[];
+  sections?: EmailSection[];
   createdAt: string;
   updatedAt: string;
   backgroundColor: string;

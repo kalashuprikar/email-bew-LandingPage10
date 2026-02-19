@@ -20,7 +20,8 @@ export interface LandingPageBlock {
     | "dynamic-content"
     | "product"
     | "navigation"
-    | "content-image";
+    | "content-image"
+    | "text-headings-composite";
   properties: Record<string, any>;
   children?: LandingPageBlock[];
 }

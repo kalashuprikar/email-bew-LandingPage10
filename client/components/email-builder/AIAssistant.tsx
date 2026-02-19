@@ -59,12 +59,13 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
   const [input, setInput] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages]);
+  }, [messages, isGenerating]);
 
   // Helper to hydrate blocks from AI with defaults
   const hydrateBlocks = (aiBlocks: any[]): ContentBlock[] => {
@@ -141,7 +142,7 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
       setMessages((prev) => [...prev, aiMessage]);
 
       // Auto-apply if it's a "build" command and template is currently empty
-      const isBuildCommand = input.toLowerCase().includes("build") || input.toLowerCase().includes("newsletter");
+      const isBuildCommand = textToSend.toLowerCase().includes("build") || textToSend.toLowerCase().includes("newsletter");
       if (isBuildCommand && currentTemplate.blocks.length === 0 && blocks.length > 0) {
         handleApplyAll(blocks);
         const autoApplyMessage: Message = {
@@ -292,6 +293,7 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
               </div>
             </div>
           )}
+          <div ref={messagesEndRef} />
         </div>
       </ScrollArea>
 

@@ -66,7 +66,10 @@ IMPORTANT: Return ONLY the JSON object. No markdown, no conversational text befo
       throw new Error("Invalid response format from AI model");
     }
 
-    res.json(result);
+    res.json({
+      message: result.message || "I've generated a template based on your request.",
+      blocks: result.blocks || []
+    });
   } catch (error) {
     console.error("AI Generation Error:", error);
 
