@@ -140,7 +140,6 @@ export const EmailPreview: React.FC<EmailPreviewProps> = ({ template }) => {
             width: getDeviceWidth(),
             backgroundColor: template.backgroundColor,
             padding: `${template.padding}px`,
-            border: "1px solid #ddd",
             borderRadius: "4px",
           }}
         >
