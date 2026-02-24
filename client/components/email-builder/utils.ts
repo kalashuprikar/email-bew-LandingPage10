@@ -1543,3 +1543,19 @@ export function getTemplateById(id: string): EmailTemplate | null {
   const templates = getTemplatesFromLocalStorage();
   return templates.find((t) => t.id === id) || null;
 }
+
+export function getPaddingString(block: any): string {
+  const top = block.paddingTop ?? block.padding ?? 0;
+  const right = block.paddingRight ?? block.padding ?? 0;
+  const bottom = block.paddingBottom ?? block.padding ?? 0;
+  const left = block.paddingLeft ?? block.padding ?? 0;
+  return `${top}px ${right}px ${bottom}px ${left}px`;
+}
+
+export function getMarginString(block: any): string {
+  const top = block.marginTop ?? block.margin ?? 0;
+  const right = block.marginRight ?? block.margin ?? 0;
+  const bottom = block.marginBottom ?? block.margin ?? 0;
+  const left = block.marginLeft ?? block.margin ?? 0;
+  return `${top}px ${right}px ${bottom}px ${left}px`;
+}
