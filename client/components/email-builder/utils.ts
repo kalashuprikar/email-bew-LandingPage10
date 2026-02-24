@@ -892,7 +892,13 @@ export function renderBlockToHTML(block: ContentBlock): string {
       const title = buttonBlock.linkTooltip
         ? `title="${buttonBlock.linkTooltip}"`
         : "";
-      return `<div style="display: flex; justify-content: ${buttonAlignment}; margin: ${buttonBlock.margin}px;"><a href="${buttonBlock.link}" ${target} ${title} style="background-color: ${buttonBlock.backgroundColor}; color: ${buttonBlock.textColor}; padding: ${buttonBlock.padding}px 20px; border-radius: ${buttonBlock.borderRadius}px; text-decoration: none; display: inline-block; text-align: center; font-size: ${buttonBlock.fontSize}px; font-weight: ${buttonBlock.fontWeight}; width: ${buttonWidth}; ${buttonBorder}">${buttonBlock.text}</a></div>`;
+      const alignmentStyle =
+        buttonBlock.alignment === "left"
+          ? "text-align: left;"
+          : buttonBlock.alignment === "right"
+            ? "text-align: right;"
+            : "text-align: center;";
+      return `<div style="${alignmentStyle} margin: ${buttonBlock.margin}px;"><a href="${buttonBlock.link}" ${target} ${title} style="background-color: ${buttonBlock.backgroundColor}; color: ${buttonBlock.textColor}; padding: ${buttonBlock.padding}px 20px; border-radius: ${buttonBlock.borderRadius}px; text-decoration: none; display: inline-block; font-size: ${buttonBlock.fontSize}px; font-weight: ${buttonBlock.fontWeight}; ${buttonBorder}">${buttonBlock.text}</a></div>`;
     }
     case "dynamicContent":
       return `<div style="background-color: ${block.backgroundColor}; padding: ${block.padding}px; border: 1px dashed #ccc;">${block.placeholder}</div>`;
