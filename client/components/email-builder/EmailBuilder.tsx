@@ -416,15 +416,7 @@ ${htmlContent.substring(htmlContent.indexOf('<div style="max-width:'), htmlConte
           </div>
 
           {/* Main Content */}
-          <div
-            className="flex-1 flex overflow-hidden origin-top-left"
-            style={{
-              transform: `scale(${canvasScale})`,
-              transformOrigin: "top left",
-              height: `calc(100% / ${canvasScale})`,
-              width: `calc(100% / ${canvasScale})`,
-            }}
-          >
+          <div className="flex-1 flex overflow-hidden">
             {showSourceCode ? (
               <div className="flex-1 flex flex-col overflow-hidden">
                 <SourceCodeView template={template} />
@@ -435,8 +427,8 @@ ${htmlContent.substring(htmlContent.indexOf('<div style="max-width:'), htmlConte
               </div>
             ) : (
               <>
-                {/* Left Sidebar - Blocks Panel or AI Assistant */}
-                <div className="flex flex-col w-80 bg-white border-r border-gray-200 overflow-hidden">
+                {/* Left Sidebar - Blocks Panel or AI Assistant (unscaled) */}
+                <div className="flex flex-col w-80 bg-white border-r border-gray-200 overflow-hidden flex-shrink-0">
                   {/* Tab Switcher */}
                   <div className="flex border-b border-gray-200">
                     <button
@@ -480,6 +472,16 @@ ${htmlContent.substring(htmlContent.indexOf('<div style="max-width:'), htmlConte
                   </div>
                 </div>
 
+                {/* Center and Right Panels (scaled) */}
+                <div
+                  className="flex-1 flex overflow-hidden"
+                  style={{
+                    transform: `scale(${canvasScale})`,
+                    transformOrigin: "top left",
+                    height: `calc(100% / ${canvasScale})`,
+                    width: `calc(100% / ${canvasScale})`,
+                  }}
+                >
                 {/* Center - Editor Canvas */}
                 <EmailCanvas
                   template={template}
@@ -523,6 +525,7 @@ ${htmlContent.substring(htmlContent.indexOf('<div style="max-width:'), htmlConte
                     selectedSubElementId={selectedSubElementId}
                     onSubElementSelect={handleSubElementSelect}
                   />
+                </div>
                 </div>
               </>
             )}
