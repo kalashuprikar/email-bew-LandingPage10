@@ -23,7 +23,7 @@ export const SpacingSettings: React.FC<SpacingSettingsProps> = ({
   onChange,
   tooltip,
 }) => {
-  const [isGrouped, setIsGrouped] = React.useState(true);
+  const [isGrouped, setIsGrouped] = React.useState(false);
 
   const handleChange = (side: keyof typeof values, value: number) => {
     if (isGrouped) {
