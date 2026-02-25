@@ -41,10 +41,8 @@ export const TitleBlockComponent: React.FC<TitleBlockComponentProps> = ({
 
   const containerStyle = {
     userSelect: "none" as const,
-    width: block.width ? `${block.width}${block.widthUnit || "%"}` : "100%",
+    textAlign: block.alignment as any,
     margin: getMarginString(block),
-    boxSizing: "border-box" as const,
-    overflow: "hidden" as const,
   };
 
   const textStyle = {
@@ -54,7 +52,7 @@ export const TitleBlockComponent: React.FC<TitleBlockComponentProps> = ({
     textAlign: (block.textAlignment || block.alignment) as any,
     lineHeight: block.lineHeight || 1.2,
     fontWeight: block.fontWeight as any,
-    margin: 0,
+    margin: block.alignment === "center" ? "0 auto" : "0",
     padding: getPaddingString(block),
     userSelect: "none" as const,
     borderRadius: block.borderRadius ? `${block.borderRadius}px` : undefined,
@@ -62,10 +60,11 @@ export const TitleBlockComponent: React.FC<TitleBlockComponentProps> = ({
       ? `${block.borderWidth}px solid ${block.borderColor}`
       : undefined,
     boxSizing: "border-box" as const,
-    overflow: "hidden" as const,
     wordWrap: "break-word" as const,
     overflowWrap: "break-word" as const,
     whiteSpace: "normal" as const,
+    display: "inline-block" as const,
+    width: block.width ? `${block.width}${block.widthUnit || "%"}` : "100%",
   };
 
   return (

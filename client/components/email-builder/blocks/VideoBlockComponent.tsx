@@ -19,12 +19,12 @@ export const VideoBlockComponent: React.FC<VideoBlockComponentProps> = ({
       : "";
 
   const containerStyle: React.CSSProperties = {
-    width: "100%",
+    width: block.width ? `${block.width}${block.widthUnit || "%"}` : "100%",
     textAlign: block.alignment as any,
     padding: `${block.padding}px`,
     margin: `${block.margin}px`,
     borderRadius: `${block.borderRadius}px`,
-    display: "block",
+    display: block.alignment === "center" ? "inline-block" : "block",
     marginLeft: block.alignment === "center" ? "auto" : undefined,
     marginRight: block.alignment === "center" ? "auto" : undefined,
   };

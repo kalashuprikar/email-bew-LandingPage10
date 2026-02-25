@@ -122,7 +122,9 @@ export const PromoBlockComponent: React.FC<PromoBlockComponentProps> = ({
     padding: `${block.padding}px`,
     textAlign: block.alignment as any,
     borderRadius: `${block.borderRadius}px`,
-    margin: `${block.margin}px auto`,
+    margin: block.alignment === "center"
+      ? `${block.margin}px auto`
+      : `${block.margin}px`,
     width: `${block.width}${block.widthUnit}`,
     border:
       block.borderWidth > 0

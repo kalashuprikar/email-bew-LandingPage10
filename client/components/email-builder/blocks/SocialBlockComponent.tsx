@@ -120,11 +120,12 @@ export const SocialBlockComponent: React.FC<SocialBlockComponentProps> = ({
         margin: `${block.margin}px`,
         display: isInlineDisplay ? "inline-block" : "block",
         verticalAlign: "middle",
+        textAlign: block.alignment as any,
       }}
     >
       <div
         className={`flex ${justifyClass}`}
-        style={{ gap: `${block.spacing}px`, display: "flex", flexDirection: "row", alignItems: "center" }}
+        style={{ gap: `${block.spacing}px`, display: "inline-flex", flexDirection: "row", alignItems: "center" }}
       >
         {block.platforms.map((platform) => {
           const icon = getSocialIcon(platform.name, iconSize);
