@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { EmailTemplate, ContentBlock } from "./types";
 import { BlocksPanel } from "./BlocksPanel";
 import { SettingsPanel } from "./SettingsPanel";
@@ -330,9 +331,11 @@ export const EmailBuilder: React.FC<EmailBuilderProps> = ({
                 <SourceCodeView template={template} />
               </div>
             ) : previewMode ? (
-              <div className="flex-1">
-                <EmailPreview template={template} />
-              </div>
+              <ErrorBoundary>
+                <div className="flex-1">
+                  <EmailPreview template={template} />
+                </div>
+              </ErrorBoundary>
             ) : (
               <>
                 {/* Left Sidebar - Blocks Panel or AI Assistant */}
@@ -381,34 +384,36 @@ export const EmailBuilder: React.FC<EmailBuilderProps> = ({
                 </div>
 
                 {/* Center - Editor Canvas */}
-                <EmailCanvas
-                  template={template}
-                  templateSubject={templateSubject}
-                  selectedBlockId={selectedBlockId}
-                  editingBlockId={editingBlockId}
-                  selectedFooterElement={selectedFooterElement}
-                  onAddBlock={handleAddBlock}
-                  onBlockUpdate={handleUpdateBlock}
-                  onBlockSelect={handleBlockSelect}
-                  onEditingBlockChange={setEditingBlockId}
-                  onFooterElementSelect={setSelectedFooterElement}
-                  onTemplateSubjectChange={setTemplateSubject}
-                  onBackgroundColorChange={(color) =>
-                    setTemplate({
-                      ...template,
-                      backgroundColor: color,
-                    })
-                  }
-                  onDocumentBackgroundColorChange={(color) =>
-                    setTemplate({
-                      ...template,
-                      documentBackgroundColor: color,
-                    })
-                  }
-                  onMoveBlock={handleMoveBlock}
-                  onDuplicateBlock={handleDuplicateBlock}
-                  onDeleteBlock={handleDeleteBlockById}
-                />
+                <ErrorBoundary>
+                  <EmailCanvas
+                    template={template}
+                    templateSubject={templateSubject}
+                    selectedBlockId={selectedBlockId}
+                    editingBlockId={editingBlockId}
+                    selectedFooterElement={selectedFooterElement}
+                    onAddBlock={handleAddBlock}
+                    onBlockUpdate={handleUpdateBlock}
+                    onBlockSelect={handleBlockSelect}
+                    onEditingBlockChange={setEditingBlockId}
+                    onFooterElementSelect={setSelectedFooterElement}
+                    onTemplateSubjectChange={setTemplateSubject}
+                    onBackgroundColorChange={(color) =>
+                      setTemplate({
+                        ...template,
+                        backgroundColor: color,
+                      })
+                    }
+                    onDocumentBackgroundColorChange={(color) =>
+                      setTemplate({
+                        ...template,
+                        documentBackgroundColor: color,
+                      })
+                    }
+                    onMoveBlock={handleMoveBlock}
+                    onDuplicateBlock={handleDuplicateBlock}
+                    onDeleteBlock={handleDeleteBlockById}
+                  />
+                </ErrorBoundary>
 
                 {/* Right Sidebar - Settings Panel */}
                 <div className="w-96 bg-white border-l border-gray-200 overflow-y-auto">
