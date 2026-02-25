@@ -122,22 +122,20 @@ export default function Templates() {
               drag-and-drop builder
             </p>
           </div>
-          <div className="flex gap-2">
-            <Button
-              onClick={handleNewTemplate}
-              className="bg-valasys-orange hover:bg-valasys-orange/90 text-white"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              Create Template
-            </Button>
-            <Button
-              onClick={handleCreateWithAI}
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-md transition-all duration-300 transform hover:scale-105"
-            >
-              <Sparkles className="w-4 h-4 mr-2" />
-              Create with AI
-            </Button>
-          </div>
+          <Button
+            onClick={handleNewTemplate}
+            className="bg-valasys-orange hover:bg-valasys-orange/90 text-white"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Create Template
+          </Button>
+          <Button
+            onClick={handleCreateWithAI}
+            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-md transition-all duration-300 transform hover:scale-105"
+          >
+            <Sparkles className="w-4 h-4 mr-2" />
+            Create with AI
+          </Button>
         </div>
 
         {/* Empty State */}
