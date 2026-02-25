@@ -8,7 +8,7 @@ import {
   Trash2, X, Copy, Plus, ChevronLeft,
   AlignLeft, AlignCenter, AlignRight, AlignJustify,
   Type, Image as ImageIcon, HelpCircle,
-  Monitor, Smartphone, Tablet,
+  Monitor, Smartphone, Tablet, Laptop,
   ArrowUp, ArrowDown, Baseline
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
