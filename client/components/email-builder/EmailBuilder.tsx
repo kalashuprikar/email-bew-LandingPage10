@@ -41,11 +41,13 @@ import { AIAssistant } from "./AIAssistant";
 interface EmailBuilderProps {
   templateId?: string;
   onBack?: () => void;
+  initialTab?: "blocks" | "ai";
 }
 
 export const EmailBuilder: React.FC<EmailBuilderProps> = ({
   templateId,
   onBack,
+  initialTab = "blocks",
 }) => {
   const [template, setTemplate] = useState<EmailTemplate>(() => {
     if (templateId) {
@@ -70,7 +72,7 @@ export const EmailBuilder: React.FC<EmailBuilderProps> = ({
   const [templateSubject, setTemplateSubject] = useState(template.subject);
   const [undoStack, setUndoStack] = useState<EmailTemplate[]>([]);
   const [redoStack, setRedoStack] = useState<EmailTemplate[]>([]);
-  const [leftSidebarTab, setLeftSidebarTab] = useState<"blocks" | "ai">("blocks");
+  const [leftSidebarTab, setLeftSidebarTab] = useState<"blocks" | "ai">(initialTab);
   const [openDownloadTooltip, setOpenDownloadTooltip] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
 

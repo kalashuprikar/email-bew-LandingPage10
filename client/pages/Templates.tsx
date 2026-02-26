@@ -34,6 +34,7 @@ export default function Templates() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+  const [initialTab, setInitialTab] = useState<"blocks" | "ai">("blocks");
 
   // Load templates from localStorage
   useEffect(() => {
@@ -43,14 +44,14 @@ export default function Templates() {
 
   const handleNewTemplate = () => {
     setSelectedTemplateId(null);
+    setInitialTab("blocks");
     setView("editor");
   };
 
   const handleCreateWithAI = () => {
     setSelectedTemplateId(null);
+    setInitialTab("ai");
     setView("editor");
-    // We could pass a state to tell the editor to open the AI tab immediately
-    // For now, it will just open the editor and the user can pick the AI tab
   };
 
   const handleEditTemplate = (id: string) => {
@@ -103,6 +104,7 @@ export default function Templates() {
       <EmailBuilder
         templateId={selectedTemplateId || undefined}
         onBack={handleBackToList}
+        initialTab={initialTab}
       />
     );
   }

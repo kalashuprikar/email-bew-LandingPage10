@@ -44,12 +44,11 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
     {
       id: "welcome",
       role: "assistant",
-      content: "Hi! I'm your Email AI Assistant. I can help you build beautiful newsletters in seconds. Try one of these quick builds:",
+      content: "Try one of these quick builds:",
     },
   ]);
 
   const quickBuilds = [
-    "Build a monthly newsletter",
     "Build a welcome email",
     "Build a product promo",
     "Build a sales outreach",
@@ -170,14 +169,14 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-full bg-white border-r border-gray-200">
-      <div className="p-4 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
+    <div className="flex flex-col h-full bg-white">
+      <div className="p-4 border-b border-gray-100 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-white" />
+          <div className="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
+            <Sparkles className="w-5 h-5 text-white" />
           </div>
-          <h2 className="font-bold text-gray-900">Active Intelligence</h2>
-          <span className="text-[10px] bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded uppercase font-bold tracking-wider">Beta</span>
+          <h2 className="font-bold text-gray-900 text-base">Active Intelligence</h2>
+          <span className="text-[10px] bg-purple-50 text-purple-600 px-1.5 py-0.5 rounded uppercase font-bold tracking-wider">Beta</span>
         </div>
       </div>
 
@@ -209,13 +208,13 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
                 >
                   {message.content}
                   {message.id === "welcome" && (
-                    <div className="mt-3 flex flex-wrap gap-2">
+                    <div className="mt-3 flex flex-col items-center gap-2">
                       {quickBuilds.map((build) => (
                         <Button type="button"
                           key={build}
                           variant="outline"
                           size="sm"
-                          className="text-[10px] h-7 bg-white hover:bg-purple-50 hover:text-purple-700 border-purple-100"
+                          className="text-[11px] h-8 bg-white hover:bg-gray-50 border-gray-200 text-gray-700 font-medium rounded-lg w-full max-w-[220px]"
                           onClick={() => {
                             handleSend(build);
                           }}
@@ -297,14 +296,14 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
         </div>
       </ScrollArea>
 
-      <div className="p-4 border-t border-gray-200 bg-white">
+      <div className="p-4 border-t border-gray-100 bg-white">
         <div className="relative">
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Describe what to build..."
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            className="pr-10 border-purple-100 focus:border-purple-600 focus:ring-purple-600/10 rounded-xl"
+            className="pr-10 border-gray-200 focus:border-purple-600 focus:ring-purple-600/5 rounded-xl text-sm py-5"
             disabled={isGenerating}
           />
           <Button type="button"
@@ -312,7 +311,7 @@ export const AIAssistant: React.FC<AIAssistantProps> = ({
             variant="ghost"
             onClick={() => handleSend()}
             disabled={!input.trim() || isGenerating}
-            className="absolute right-1 top-1 h-8 w-8 p-0 text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+            className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8 p-0 text-purple-600 hover:text-purple-700 hover:bg-purple-50"
           >
             <Send className="w-4 h-4" />
           </Button>
