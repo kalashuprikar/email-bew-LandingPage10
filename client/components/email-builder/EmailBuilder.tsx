@@ -401,7 +401,7 @@ ${htmlContent.substring(htmlContent.indexOf('<div style="max-width:'), htmlConte
           {/* Main Content */}
           <div className="flex-1 flex overflow-hidden">
             {showSourceCode ? (
-              <div className="flex-1 flex flex-col">
+              <div className="flex-1 flex flex-col overflow-hidden">
                 <SourceCodeView template={template} />
               </div>
             ) : previewMode ? (
