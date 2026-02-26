@@ -32,7 +32,7 @@ import {
   generateId,
   renderTemplateToHTML,
 } from "./utils";
-import { Save, Eye, Edit, Trash2, Plus, ChevronLeft, Code, Sparkles, Layout, Download } from "lucide-react";
+import { Save, Eye, Edit, Trash2, Plus, Minus, ChevronLeft, Code, Sparkles, Layout, Download, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { EmailCanvas } from "./EmailCanvas";
 import { SourceCodeView } from "./SourceCodeView";
@@ -73,6 +73,7 @@ export const EmailBuilder: React.FC<EmailBuilderProps> = ({
   const [leftSidebarTab, setLeftSidebarTab] = useState<"blocks" | "ai">("blocks");
   const [openDownloadTooltip, setOpenDownloadTooltip] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
+  const [zoom, setZoom] = useState(0.8);
 
   // Auto-save to localStorage
   useEffect(() => {
@@ -384,6 +385,37 @@ ${htmlContent.substring(htmlContent.indexOf('<div style="max-width:'), htmlConte
                   </TooltipContent>
                 </Tooltip>
 
+                {/* Zoom Controls */}
+                <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1 ml-2 border border-gray-200 shadow-sm">
+                  <div className="px-2 text-xs font-bold text-gray-600 min-w-[40px] text-center">
+                    {Math.round(zoom * 100)}%
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 w-7 p-0 hover:bg-white hover:shadow-sm"
+                    onClick={() => setZoom(Math.max(0.2, zoom - 0.1))}
+                  >
+                    <Minus className="w-3 h-3" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 w-7 p-0 hover:bg-white hover:shadow-sm"
+                    onClick={() => setZoom(Math.min(2, zoom + 0.1))}
+                  >
+                    <Plus className="w-3 h-3" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-7 px-2 text-xs font-medium hover:bg-white hover:shadow-sm"
+                    onClick={() => setZoom(1)}
+                  >
+                    Reset
+                  </Button>
+                </div>
+
                 <Button
                   onClick={() => setShowSaveDialog(true)}
                   className="gap-2 bg-valasys-orange hover:bg-valasys-orange/90 text-white"
@@ -454,6 +486,7 @@ ${htmlContent.substring(htmlContent.indexOf('<div style="max-width:'), htmlConte
 
                 {/* Center - Editor Canvas */}
                 <EmailCanvas
+                  zoom={zoom}
                   template={template}
                   templateSubject={templateSubject}
                   selectedBlockId={selectedBlockId}
