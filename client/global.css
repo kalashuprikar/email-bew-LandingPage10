@@ -102,10 +102,12 @@
   /* Email Builder - 80% scale */
   .email-builder-page {
     zoom: 0.8;
+    min-height: 100vh;
   }
 
   .email-builder-page main {
     overflow: visible !important;
+    min-height: 100%;
   }
 
   /* Custom animations for charts */
