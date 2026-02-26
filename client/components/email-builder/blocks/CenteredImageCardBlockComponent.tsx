@@ -514,7 +514,6 @@ export const CenteredImageCardBlockComponent: React.FC<
           onClick={(e) => {
             e.stopPropagation();
             onBlockSelect?.(block.id);
-            onSubElementSelect?.("image");
           }}
         >
           {block.image ? (
@@ -641,12 +640,7 @@ export const CenteredImageCardBlockComponent: React.FC<
               )}
             </>
           ) : (
-            <label className="flex items-center justify-center w-full h-40 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50"
-            onClick={() => {
-              onSubElementSelect?.("image");
-              onBlockSelect?.(block.id);
-            }}
-          >
+            <label className="flex items-center justify-center w-full h-40 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
               <div className="flex flex-col items-center justify-center">
                 <Upload className="w-6 h-6 text-gray-400 mb-2" />
                 <p className="text-sm text-gray-500">Click to upload</p>

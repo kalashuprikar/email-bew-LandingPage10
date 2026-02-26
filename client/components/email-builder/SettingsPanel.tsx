@@ -418,9 +418,6 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
 
     if (block.type === "centeredImageCard" || block.type === "splitImageCard") {
       const b = block as any;
-      if (selectedSubElementId === "image") {
-        return { id: "image", type: "image", content: b.image, alt: b.imageAlt };
-      }
       return (
         b.titles?.find((t: any) => t.id === selectedSubElementId) ||
         b.descriptions?.find((d: any) => d.id === selectedSubElementId) ||
@@ -6235,304 +6232,283 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
       case "splitImageCard":
         return (
           <div className="space-y-5">
-            {/* Image Section */}
-            <div>
-              <h4 className="text-xs font-bold text-gray-900 mb-3">Image</h4>
-              <div className="space-y-3">
+            {/* Only show Image and Content sections when no sub-element is selected */}
+            {!selectedSubElementId && (
+              <>
+                {/* Image Section */}
                 <div>
-                  <Label className="text-xs text-gray-700 mb-1 block">
-                    Upload Image
-                  </Label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    id="cardImageUpload"
-                    className="hidden"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (event) => {
-                          onBlockUpdate({
-                            ...block,
-                            image: event.target?.result as string,
-                          });
-                        };
-                        reader.readAsDataURL(file);
-                      }
-                    }}
-                  />
-                  <Button type="button"
-                    variant="outline"
-                    size="sm"
-                    className="w-full text-xs"
-                    onClick={() =>
-                      document.getElementById("cardImageUpload")?.click()
-                    }
-                  >
-                    Choose File
-                  </Button>
-                </div>
-
-                <div>
-                  <Label className="text-xs text-gray-700 mb-1 block">
-                    Or paste Image URL
-                  </Label>
-                  <Input
-                    type="text"
-                    placeholder="https://example.com/image.jpg"
-                    value={(block as any).image || ""}
-                    onChange={(e) =>
-                      onBlockUpdate({
-                        ...block,
-                        image: e.target.value,
-                      })
-                    }
-                    className="focus:ring-valasys-orange focus:ring-2"
-                  />
-                </div>
-
-                {(block as any).image && (
-                  <div>
-                    <Label className="text-xs text-gray-700 mb-1 block">
-                      Image Alt Text
-                    </Label>
-                    <Input
-                      type="text"
-                      placeholder="Describe the image..."
-                      value={(block as any).imageAlt || ""}
-                      onChange={(e) =>
-                        onBlockUpdate({
-                          ...block,
-                          imageAlt: e.target.value,
-                        })
-                      }
-                      className="focus:ring-valasys-orange focus:ring-2"
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Content Section */}
-            <div>
-              <h4 className="text-xs font-bold text-gray-900 mb-3">Content</h4>
-              <div className="space-y-3">
-                {((block as any).titles && (block as any).titles.length > 0) ? (
-                  (block as any).titles.map((title: any, idx: number) => (
-                    <div key={title.id}>
+                  <h4 className="text-xs font-bold text-gray-900 mb-3">Image</h4>
+                  <div className="space-y-3">
+                    <div>
                       <Label className="text-xs text-gray-700 mb-1 block">
-                        Title { (block as any).titles.length > 1 ? idx + 1 : "" }
+                        Upload Image
+                      </Label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        id="cardImageUpload"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (event) => {
+                              onBlockUpdate({
+                                ...block,
+                                image: event.target?.result as string,
+                              });
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                      />
+                      <Button type="button"
+                        variant="outline"
+                        size="sm"
+                        className="w-full text-xs"
+                        onClick={() =>
+                          document.getElementById("cardImageUpload")?.click()
+                        }
+                      >
+                        Choose File
+                      </Button>
+                    </div>
+
+                    <div>
+                      <Label className="text-xs text-gray-700 mb-1 block">
+                        Or paste Image URL
                       </Label>
                       <Input
                         type="text"
-                        value={title.content}
-                        onChange={(e) => {
-                          const updatedTitles = (block as any).titles.map((t: any) =>
-                            t.id === title.id ? { ...t, content: e.target.value } : t
-                          );
-                          const update: any = { titles: updatedTitles };
-                          if (idx === 0) update.title = e.target.value;
-                          onBlockUpdate({ ...block, ...update });
-                        }}
-                        className={cn("focus:ring-valasys-orange focus:ring-2", selectedSubElementId === title.id && "ring-2 ring-valasys-orange")}
+                        placeholder="https://example.com/image.jpg"
+                        value={(block as any).image || ""}
+                        onChange={(e) =>
+                          onBlockUpdate({
+                            ...block,
+                            image: e.target.value,
+                          })
+                        }
+                        className="focus:ring-valasys-orange focus:ring-2"
                       />
                     </div>
-                  ))
-                ) : (
-                  <div>
-                    <Label className="text-xs text-gray-700 mb-1 block">Title</Label>
-                    <Input
-                      type="text"
-                      value={(block as any).title || ""}
-                      onChange={(e) => onBlockUpdate({ ...block, title: e.target.value })}
-                      className="focus:ring-valasys-orange focus:ring-2"
-                    />
-                  </div>
-                )}
 
-                {((block as any).descriptions && (block as any).descriptions.length > 0) ? (
-                  (block as any).descriptions.map((desc: any, idx: number) => (
-                    <div key={desc.id}>
+                    {(block as any).image && (
+                      <div>
+                        <Label className="text-xs text-gray-700 mb-1 block">
+                          Image Alt Text
+                        </Label>
+                        <Input
+                          type="text"
+                          placeholder="Describe the image..."
+                          value={(block as any).imageAlt || ""}
+                          onChange={(e) =>
+                            onBlockUpdate({
+                              ...block,
+                              imageAlt: e.target.value,
+                            })
+                          }
+                          className="focus:ring-valasys-orange focus:ring-2"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Content Section */}
+                <div>
+                  <h4 className="text-xs font-bold text-gray-900 mb-3">Content</h4>
+                  <div className="space-y-3">
+                    <div>
                       <Label className="text-xs text-gray-700 mb-1 block">
-                        Description { (block as any).descriptions.length > 1 ? idx + 1 : "" }
+                        Title
+                      </Label>
+                      <Input
+                        type="text"
+                        value={(block as any).titles?.[0]?.content ?? (block as any).title ?? ""}
+                        onChange={(e) => {
+                          const newValue = e.target.value;
+                          const update: any = { title: newValue };
+                          if ((block as any).titles && (block as any).titles.length > 0) {
+                            update.titles = [
+                              { ...(block as any).titles[0], content: newValue },
+                              ...(block as any).titles.slice(1),
+                            ];
+                          }
+                          onBlockUpdate({
+                            ...block,
+                            ...update,
+                          });
+                        }}
+                        className="focus:ring-valasys-orange focus:ring-2"
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="text-xs text-gray-700 mb-1 block">
+                        Description
                       </Label>
                       <textarea
-                        value={desc.content}
+                        value={(block as any).descriptions?.[0]?.content ?? (block as any).description ?? ""}
                         onChange={(e) => {
-                          const updatedDescs = (block as any).descriptions.map((d: any) =>
-                            d.id === desc.id ? { ...d, content: e.target.value } : d
-                          );
-                          const update: any = { descriptions: updatedDescs };
-                          if (idx === 0) update.description = e.target.value;
-                          onBlockUpdate({ ...block, ...update });
+                          const newValue = e.target.value;
+                          const update: any = { description: newValue };
+                          if ((block as any).descriptions && (block as any).descriptions.length > 0) {
+                            update.descriptions = [
+                              { ...(block as any).descriptions[0], content: newValue },
+                              ...(block as any).descriptions.slice(1),
+                            ];
+                          }
+                          onBlockUpdate({
+                            ...block,
+                            ...update,
+                          });
                         }}
                         rows={4}
-                        className={cn("w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-valasys-orange focus:border-transparent", selectedSubElementId === desc.id && "ring-2 ring-valasys-orange")}
+                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-valasys-orange focus:border-transparent"
                       />
                     </div>
-                  ))
-                ) : (
+
+                    <div>
+                      <Label className="text-xs text-gray-700 mb-1 block">
+                        Button Text
+                      </Label>
+                      <Input
+                        type="text"
+                        value={(block as any).buttonText || ""}
+                        onChange={(e) =>
+                          onBlockUpdate({
+                            ...block,
+                            buttonText: e.target.value,
+                          })
+                        }
+                        className="focus:ring-valasys-orange focus:ring-2"
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="text-xs text-gray-700 mb-1 block">
+                        Button Link
+                      </Label>
+                      <Input
+                        type="text"
+                        placeholder="https://example.com"
+                        value={(block as any).buttonLink || ""}
+                        onChange={(e) =>
+                          onBlockUpdate({
+                            ...block,
+                            buttonLink: e.target.value,
+                          })
+                        }
+                        className="focus:ring-valasys-orange focus:ring-2"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* Styling Section - only show when no sub-element is selected */}
+            {!selectedSubElementId && (
+              <div>
+                <h4 className="text-xs font-bold text-gray-900 mb-3">Styling</h4>
+                <div className="space-y-4">
                   <div>
-                    <Label className="text-xs text-gray-700 mb-1 block">Description</Label>
+                    <Label className="text-xs text-gray-700 mb-1 block">
+                      Background Color
+                    </Label>
+                    <Input
+                      type="color"
+                      value={(block as any).backgroundColor || "#ffffff"}
+                      onChange={(e) =>
+                        onBlockUpdate({
+                          ...block,
+                          backgroundColor: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+
+                  <div>
+                    <Label className="text-xs text-gray-700 mb-1 block">
+                      Border Color
+                    </Label>
+                    <Input
+                      type="color"
+                      value={(block as any).borderColor || "#000000"}
+                      onChange={(e) =>
+                        onBlockUpdate({
+                          ...block,
+                          borderColor: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label className="text-xs text-gray-700 mb-1 block">
+                        Border Width (px)
+                      </Label>
+                      <Input
+                        type="number"
+                        min="0"
+                        value={(block as any).borderWidth || 0}
+                        onChange={(e) =>
+                          onBlockUpdate({
+                            ...block,
+                            borderWidth: parseInt(e.target.value) || 0,
+                          })
+                        }
+                        className="focus:ring-valasys-orange focus:ring-2"
+                      />
+                    </div>
+
+                    <div>
+                      <Label className="text-xs text-gray-700 mb-1 block">
+                        Border Radius (px)
+                      </Label>
+                      <Input
+                        type="number"
+                        min="0"
+                        value={(block as any).borderRadius || 0}
+                        onChange={(e) =>
+                          onBlockUpdate({
+                            ...block,
+                            borderRadius: parseInt(e.target.value) || 0,
+                          })
+                        }
+                        className="focus:ring-valasys-orange focus:ring-2"
+                      />
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            )}
+
+            {/* Sub-element specific label */}
+            {selectedSubElementId && (
+              <div>
+                <div className="text-xs text-gray-600 p-3 bg-gray-50 rounded mb-4">
+                  Styling options below apply to the selected element only
+                </div>
+
+                {/* Content editing for selected sub-element */}
+                {selectedSubElement && (
+                  <div className="space-y-3 mb-4">
+                    <Label className="text-xs font-semibold text-gray-700">
+                      Content
+                    </Label>
                     <textarea
-                      value={(block as any).description || ""}
-                      onChange={(e) => onBlockUpdate({ ...block, description: e.target.value })}
+                      value={selectedSubElement.content ?? selectedSubElement.text ?? ""}
+                      onChange={(e) => handleSubElementContentUpdate(e.target.value)}
                       rows={4}
                       className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-valasys-orange focus:border-transparent"
                     />
                   </div>
                 )}
-
-                <div>
-                  <Label className="text-xs text-gray-700 mb-1 block">
-                    Button Text
-                  </Label>
-                  <Input
-                    type="text"
-                    value={(block as any).buttonText || ""}
-                    onChange={(e) =>
-                      onBlockUpdate({
-                        ...block,
-                        buttonText: e.target.value,
-                      })
-                    }
-                    className="focus:ring-valasys-orange focus:ring-2"
-                  />
-                </div>
-
-                <div>
-                  <Label className="text-xs text-gray-700 mb-1 block">
-                    Button Link
-                  </Label>
-                  <Input
-                    type="text"
-                    placeholder="https://example.com"
-                    value={(block as any).buttonLink || ""}
-                    onChange={(e) =>
-                      onBlockUpdate({
-                        ...block,
-                        buttonLink: e.target.value,
-                      })
-                    }
-                    className="focus:ring-valasys-orange focus:ring-2"
-                  />
-                </div>
               </div>
-            </div>
-
-            {/* Styling Section */}
-            <div>
-              <h4 className="text-xs font-bold text-gray-900 mb-3">Styling</h4>
-              <div className="space-y-4">
-                <div>
-                  <Label className="text-xs text-gray-700 mb-1 block">
-                    Background Color
-                  </Label>
-                  <Input
-                    type="color"
-                    value={(block as any).backgroundColor || "#ffffff"}
-                    onChange={(e) =>
-                      onBlockUpdate({
-                        ...block,
-                        backgroundColor: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-
-                <div>
-                  <Label className="text-xs text-gray-700 mb-1 block">
-                    Border Color
-                  </Label>
-                  <Input
-                    type="color"
-                    value={(block as any).borderColor || "#000000"}
-                    onChange={(e) =>
-                      onBlockUpdate({
-                        ...block,
-                        borderColor: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <Label className="text-xs text-gray-700 mb-1 block">
-                      Border Width (px)
-                    </Label>
-                    <Input
-                      type="number"
-                      min="0"
-                      value={(block as any).borderWidth || 0}
-                      onChange={(e) =>
-                        onBlockUpdate({
-                          ...block,
-                          borderWidth: parseInt(e.target.value) || 0,
-                        })
-                      }
-                      className="focus:ring-valasys-orange focus:ring-2"
-                    />
-                  </div>
-
-                  <div>
-                    <Label className="text-xs text-gray-700 mb-1 block">
-                      Border Radius (px)
-                    </Label>
-                    <Input
-                      type="number"
-                      min="0"
-                      value={(block as any).borderRadius || 0}
-                      onChange={(e) =>
-                        onBlockUpdate({
-                          ...block,
-                          borderRadius: parseInt(e.target.value) || 0,
-                        })
-                      }
-                      className="focus:ring-valasys-orange focus:ring-2"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Layout Section */}
-            <div>
-              <h4 className="text-xs font-bold text-gray-900 mb-3">Layout</h4>
-              <div>
-                <Label className="text-xs text-gray-700 mb-1 block">
-                  Width
-                </Label>
-                <div className="flex gap-2">
-                  <Input
-                    type="number"
-                    min="0"
-                    value={(block as any).width || 100}
-                    onChange={(e) =>
-                      onBlockUpdate({
-                        ...block,
-                        width: parseInt(e.target.value) || 0,
-                      })
-                    }
-                    className="flex-1 focus:ring-valasys-orange focus:ring-2"
-                  />
-                  <select
-                    value={(block as any).widthUnit || "%"}
-                    onChange={(e) =>
-                      onBlockUpdate({
-                        ...block,
-                        widthUnit: e.target.value,
-                      })
-                    }
-                    className="px-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-valasys-orange"
-                  >
-                    <option value="%">%</option>
-                    <option value="px">px</option>
-                  </select>
-                </div>
-              </div>
-            </div>
+            )}
           </div>
         );
       case "features": {
@@ -6987,14 +6963,11 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
         </Button>
       </div>
       <div className="space-y-5">
-        {selectedSubElementId ? (
-          renderSettings()
-        ) : (
-          <UniversalStyleSettings
-            block={block}
-            onBlockUpdate={onBlockUpdate}
-          />
-        )}
+        {renderSettings()}
+        <UniversalStyleSettings
+          block={selectedSubElement ? { ...selectedSubElement, ...(selectedSubElement.styles || {}) } : block}
+          onBlockUpdate={selectedSubElement ? handleSubElementStyleUpdate : onBlockUpdate}
+        />
       </div>
     </div>
   );
